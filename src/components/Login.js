@@ -11,15 +11,12 @@ import {Link as RouterLink}  from 'react-router-dom';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import LoginIcon from '@mui/icons-material/Login';
 import { palette } from '@mui/system';
-
 const Login = () => {
-  
   const theme=useTheme();
   const {register,handleSubmit,formState:{errors}}=useForm();
-
   const submitForm = (data) =>{
     var fetchData=JSON.parse(localStorage.getItem('userData'));
-    const getCredentials=fetchData.filter((item)=>{return (item.userName===data.userName && item.password===data.password)});
+    const getCredentials=fetchData.filter((item)=>{return (item.username===data.username && item.password===data.password)});
     if(getCredentials.length===1){
         toast.success("You are Logged in..");
     }else{
@@ -37,18 +34,18 @@ const Login = () => {
                 </Stack>
                 <Stack mt={5}>
                     <TextField 
-                    {...register('userName',{required:{value:true,message:"Username is Required"},
+                    {...register('username',{required:{value:true,message:"username is Required"},
                     validate: (val)=>{
                         var fetchData=JSON.parse(localStorage.getItem('userData'));
-                        const usernames=fetchData.map((item)=>item.userName);
+                        const usernames=fetchData.map((item)=>item.username);
                         if(!usernames.includes(val)){
-                            return "Username doesn't exist";
+                            return "username doesn't exist";
                         }
                     }
                     })}
                     error={Boolean(errors.username?.message)}
                     helperText={errors.username?.message}
-                    id="outlined-basic" label="Username*" variant="outlined" />
+                    id="outlined-basic" label="username*" variant="outlined" />
                     <TextField 
                     {...register('password',{required:{value:true,message:"Password is required"}})}
                     error={Boolean(errors.password?.message)}
