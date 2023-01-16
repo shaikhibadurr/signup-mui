@@ -1,9 +1,11 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Stack } from '@mui/system';
+import {Toaster} from 'react-hot-toast';
 import CssBaseline from '@mui/material/CssBaseline';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Login from './components/Login';
 import Form from './components/Form';
+import Dashboard from './components/Dashboard';
 import './App.css'
 const darkTheme = createTheme({
   palette: {
@@ -12,21 +14,22 @@ const darkTheme = createTheme({
     },
   },
   typography:{
-    fontFamily:'Figtree',
+    fontFamily:'Figtree'
   }
 });
+
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline/>
-        <Stack alignItems={'center'} mt='40px'>
+          <Toaster/>
           <Routes>
             <Route path="/" element={<Login/>}></Route>
             <Route path='/signup' element={<Form/>}></Route>
+            <Route path='/dashboard' element={<Dashboard/>}></Route>
           </Routes>
-        </Stack>
       </ThemeProvider>
     </BrowserRouter>
   );
