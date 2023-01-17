@@ -1,4 +1,8 @@
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Typography, Stack, ButtonGroup } from "@mui/material";  
+import { grey } from "@mui/material/colors";
+import Button from "@mui/material/Button";
+import InputBase from "@mui/material/InputBase";
+import styled from "@emotion/styled";
 import React from "react";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,6 +12,55 @@ import FormControl from "@mui/material/FormControl";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import FilePondUpload from "./FilePondUpload";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
+import AddIcon from '@mui/icons-material/Add';
+
+
+const CssTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderRight:'none',
+      borderRadius:'4px 0 0 4px'
+    },
+  },
+});
+
+
+
+
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+  '& .MuiInputBase-input': {
+    borderRadius: '0 5px 5px 0',
+    position: 'relative',
+    backgroundColor: grey[200],
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '15.5px 26px 15.5px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}));
+
+
 
 const AddProductForm = () => {
   return (
@@ -19,7 +72,7 @@ const AddProductForm = () => {
         variant="outlined"
       />
       <Typography
-        sx={{ fontWeight: "bold", color: "grey" }}
+        sx={{ fontWeight: "bold", color: grey[500] }}
         pt="20px"
         variant="body1"
         mt={2}
@@ -70,7 +123,7 @@ const AddProductForm = () => {
       </Stack>
 
       <Typography
-        sx={{ fontWeight: "bold", color: "grey" }}
+        sx={{ fontWeight: "bold", color: grey[500] }}
         pt="20px"
         variant="body1"
         mt={2}
@@ -106,7 +159,7 @@ const AddProductForm = () => {
       </Stack>
 
       <Typography
-        sx={{ fontWeight: "bold", color: "grey" }}
+        sx={{ fontWeight: "bold", color: grey[500] }}
         pt="20px"
         variant="body1"
         mt={2}
@@ -149,6 +202,103 @@ const AddProductForm = () => {
             </Select>
           </FormControl>
         </Stack>
+        <Stack direction="row" justifyContent={"space-between"} gap="10px" mt={2} >
+          <TextField sx={{ flex: 1 }}
+            id="outlined-basic"
+            label="SKU"
+            variant="outlined"
+          />
+          <ButtonGroup variant="outlined" sx={{ flex: 1 }} >
+
+            <CssTextField sx={{ flex: 2 }} label="Unit" id="custom-css-outlined-input" />
+            <FormControl sx={{ flex: 1 }}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                defaultValue={0}
+                sx={{background:'#f1f3f5'}}
+                input={<BootstrapInput/>}
+              >
+                <MenuItem value={0}>kg</MenuItem>
+                <MenuItem value={5}>gm</MenuItem>
+                <MenuItem value={10}>ml</MenuItem>
+                <MenuItem value={15}>ltr</MenuItem>
+                <MenuItem value={20}>cm</MenuItem>
+                <MenuItem value={25}>inch</MenuItem>
+              </Select>
+            </FormControl>
+          </ButtonGroup>
+        </Stack>
+      </Stack>
+
+      <Typography
+        sx={{ fontWeight: "bold", color: grey[500] }}
+        pt="20px"
+        variant="body1"
+        mt={2}
+        title="Only png jpg allowed"
+      >
+        Images
+        <InfoOutlinedIcon fontSize="sm" />
+      </Typography>
+      <Stack direction="row" gap="10px">
+        <Stack sx={{flex:1}}>
+          <Typography variant="body2" sx={{color:grey[500], textAlign:'center'}}>Featured Image</Typography>
+          <FilePondUpload allowMultiple={false} labelIdle='Drag & Drop Image or <span class="filepond--label-action">Browse</span>' />
+        </Stack>
+        <Stack sx={{flex:1}}>
+          <Typography variant="body2" sx={{color:grey[500], textAlign:'center'}}>Other Images</Typography>
+          <FilePondUpload allowMultiple={true} labelIdle='Drag & Drop Image or <span class="filepond--label-action">Browse</span>' />
+        </Stack>
+      </Stack>
+      <Typography
+        sx={{ fontWeight: "bold", color: grey[500] }}
+        pt="20px"
+        variant="body1"
+        mt={2}
+        title="Add Youtube Video Id"
+      >
+        Videos
+        <InfoOutlinedIcon  fontSize="sm" />
+        <Button size="small" sx={{ml:2}} variant="outlined" startIcon={<AddIcon />}  >Add More</Button>
+      </Typography>
+      <Stack direction="row" gap="10px" mt={2} flexWrap="wrap" >
+          <FormControl sx={{minWidth:'calc(50% - 5px)' }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Featured Video Id</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LinkOutlinedIcon/>
+                </InputAdornment>
+              }
+              label="Featured Video Id"
+            />
+          </FormControl>
+          <FormControl sx={{minWidth:'calc(50% - 5px)' }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LinkOutlinedIcon/>
+                </InputAdornment>
+              }
+              label="Other Video Id"
+            />
+          </FormControl>
+          <FormControl sx={{ minWidth:'calc(50% - 5px)' }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LinkOutlinedIcon/>
+                </InputAdornment>
+              }
+              label="Other Video Id"
+            />
+          </FormControl>
       </Stack>
     </Box>
   );
