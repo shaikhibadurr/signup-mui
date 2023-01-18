@@ -11,7 +11,6 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 function FilePondUpload(a) {
   const [files, setFiles] = useState([]);
-    console.log(a);
     return (
       <div className="container mt-4">
         <FilePond
