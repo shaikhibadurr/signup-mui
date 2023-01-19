@@ -1,4 +1,3 @@
-
 import { Box, Typography, Stack, ButtonGroup } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
@@ -19,7 +18,11 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
-import MUIRichTextEditor from 'mui-rte'
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
+import TextEditorTabs from "./TextEditorTabs";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CssTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
@@ -30,9 +33,6 @@ const CssTextField = styled(TextField)({
   },
 });
 
-
-
-
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     borderRadius: '0 5px 5px 0',
@@ -42,19 +42,6 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     fontSize: 16,
     padding: '15.5px 26px 15.5px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
     '&:focus': {
       borderRadius: 4,
       borderColor: '#80bdff',
@@ -66,42 +53,85 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
 
 const AddProductForm = () => {
-  const [videoInpList, setVideoInpList] = useState([]);
   useEffect(() => {
     console.log('hello');
   })
 
-  // ------------------------ SOLVED
-  const removeVideoUrlInp = useCallback((ind) => {
-    let newList = null
-    setVideoInpList(items => {
-      newList = items
-      return items
-    })
-    // setVideoInpList(newArr);
-    var newArr = newList.filter((item, index) => index !== ind);
-    setVideoInpList(newArr);
-    console.log(newArr);
-  }, [videoInpList])
 
 
-  function AddVideoUrl(item) {
+
+  // Video Input Management
+  const [videoUrlList, setVideoUrlList] = useState([]);
+  console.log(videoUrlList);
+  function VideoComponent(data) {
+    const handleInput = (e) => {
+      console.log(e.target.value);
+      setVideoUrlList(prevUrl=>{prevUrl[data.ind]=e.target.value;
+      return prevUrl});
+      console.log(videoUrlList);
+    }
+  const removeVideo = (index) =>{
+    setVideoUrlList(prevUrl=>prevUrl.filter((item,ind) => index!==ind));
+  }
     return (
       <FormControl id='form-control' sx={{ minWidth: 'calc(50% - 5px)', '& .icon1:hover': { display: 'block', color: 'red', bgcolor: 'blue' } }}>
         <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
         <OutlinedInput
           id="outlined-adornment-amount"
+          defaultValue={data.url}
+          onInput={handleInput}
           startAdornment={
             <InputAdornment position="start">
               <Stack sx={{ cursor: 'pointer', '&:hover .link-icon': { display: 'none' }, '&:hover .cross-icon': { display: 'block' } }}>
                 <LinkOutlinedIcon className='link-icon' />
-                <ClearIcon onClick={() => removeVideoUrlInp(item)} fontSize='small' className='cross-icon' sx={{ display: 'none', color: 'red' }} />
+                <ClearIcon onClick={()=>removeVideo(data.ind)} fontSize='small' className='cross-icon' sx={{ display: 'none', color: 'red' }} />
               </Stack>
             </InputAdornment>
           }
           label="Other Video Id"
         />
       </FormControl>
+    )
+  }
+
+
+
+  // Add Attribute Management
+  const [attrList,setAttrList]=useState([]);
+  const AttributeComponent = (data) =>{
+    const deleteAttr = (ind) =>{
+      setAttrList((prevAttr)=>prevAttr.filter((item,index)=> index!==ind))
+    }
+    return(
+      <Stack direction="row" mt={2} gap="10px" >
+        <Stack onClick={()=>deleteAttr(data.ind)} sx={{'&:hover':{background:(theme=>theme.coloring.border)},'&:hover .del-icon':{color:'white'},cursor:'pointer', width:'60px',borderWidth:'1px',borderStyle:'solid',borderColor:(theme=>theme.coloring.border),borderRadius:'4px'}} justifyContent="center" alignItems="center" >
+          <DeleteIcon className='del-icon' sx={{color:grey[500]}} />
+        </Stack>
+        <Stack direction="row" sx={{flex:1}} gap="10px"  flexWrap="wrap" id="add-video-url" >
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="demo-simple-select-label">Product Attributes</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Stock Status"
+              >
+                <MenuItem value={0}>Available</MenuItem>
+                <MenuItem value={5}>Sold Out</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="demo-simple-select-label">Attributes Option</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Stock Status"
+              >
+                <MenuItem value={0}>Available</MenuItem>
+                <MenuItem value={5}>Sold Out</MenuItem>
+              </Select>
+            </FormControl>
+        </Stack>
+      </Stack>
     )
   }
 
@@ -302,7 +332,7 @@ const AddProductForm = () => {
       >
         Videos
         <InfoOutlinedIcon fontSize="sm" />
-        <Button size="small" sx={{ ml: 2 }} variant="outlined" onClick={() => setVideoInpList(prevState => [...prevState, AddVideoUrl(prevState.length)])} startIcon={<AddIcon />}  >Add More</Button>
+        <Button size="small" sx={{ ml: 2 }} variant="outlined" onClick={() => setVideoUrlList(prevUrl => [...prevUrl, 'a'])} startIcon={<AddIcon />}  >Add More</Button>
       </Typography>
       <Stack direction="row" gap="10px" mt={2} flexWrap="wrap" id="add-video-url" >
         <FormControl sx={{ minWidth: 'calc(50% - 5px)' }}>
@@ -329,8 +359,59 @@ const AddProductForm = () => {
             label="Other Video Id"
           />
         </FormControl>
-        {videoInpList.map((item) => item)}
+        {videoUrlList.map((url,ind) =>{
+          return <VideoComponent url={url} ind={ind} />
+        })}
       </Stack>
+
+      {/* Text Editor */}
+      <Box sx={{mt:3}}>
+        <TextEditorTabs  />
+      </Box>
+
+      {/* Attributes */}
+      <Typography
+        sx={{ fontWeight: "bold", color: grey[500] }}
+        pt="20px"
+        variant="body1"
+        mt={2}
+        title="Add Youtube Video Id"
+      >
+        Attributes
+        <Button size="small" sx={{ ml: 2 }} onClick={()=>setAttrList(prevAttr=>[...prevAttr,'b'])} variant="outlined" startIcon={<AddIcon />}  >Add More</Button>
+      </Typography>
+      <Stack direction="row" mt={2} gap="10px" >
+        <Stack sx={{'&:hover':{background:(theme=>theme.coloring.border)},'&:hover .del-icon':{color:'white'},cursor:'pointer', width:'60px',borderWidth:'1px',borderStyle:'solid',borderColor:(theme=>theme.coloring.border),borderRadius:'4px'}} justifyContent="center" alignItems="center" >
+          <DeleteIcon className='del-icon' sx={{color:grey[500]}} />
+        </Stack>
+        <Stack direction="row" sx={{flex:1}} gap="10px"  flexWrap="wrap" id="add-video-url" >
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="demo-simple-select-label">Product Attributes</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Stock Status"
+              >
+                <MenuItem value={0}>Available</MenuItem>
+                <MenuItem value={5}>Sold Out</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="demo-simple-select-label">Attributes Option</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Stock Status"
+              >
+                <MenuItem value={0}>Available</MenuItem>
+                <MenuItem value={5}>Sold Out</MenuItem>
+              </Select>
+            </FormControl>
+        </Stack>
+      </Stack>
+      {attrList.map((item,ind)=>{
+        return <AttributeComponent ind={ind} />
+      })}
     </Box>
   );
 };

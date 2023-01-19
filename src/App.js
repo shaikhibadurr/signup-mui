@@ -15,6 +15,9 @@ const darkTheme = createTheme({
   },
   typography:{
     fontFamily:'Figtree'
+  },
+  coloring:{
+    border:'#c4c4c4'
   }
 });
 
