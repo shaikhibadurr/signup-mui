@@ -1,5 +1,5 @@
 
-import { Box, Typography, Stack, ButtonGroup } from "@mui/material";  
+import { Box, Typography, Stack, ButtonGroup } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
 import Button from "@mui/material/Button";
@@ -19,12 +19,13 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
+import MUIRichTextEditor from 'mui-rte'
 
 const CssTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderRight:'none',
-      borderRadius:'4px 0 0 4px'
+      borderRight: 'none',
+      borderRadius: '4px 0 0 4px'
     },
   },
 });
@@ -65,12 +66,9 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 
 
 const AddProductForm = () => {
-  const [videoInpList,setVideoInpList]=useState([]);
-  console.log(videoInpList)
-
-  useEffect(()=>{
+  const [videoInpList, setVideoInpList] = useState([]);
+  useEffect(() => {
     console.log('hello');
-    console.log(videoInpList);
   })
 
   // ------------------------ SOLVED
@@ -80,33 +78,33 @@ const AddProductForm = () => {
       newList = items
       return items
     })
-    
-    console.log(newList)
-    console.log(ind)
+    // setVideoInpList(newArr);
+    var newArr = newList.filter((item, index) => index !== ind);
+    setVideoInpList(newArr);
+    console.log(newArr);
   }, [videoInpList])
 
 
-  function AddVideoUrl(item){
-    return(
-            <FormControl id='form-control' sx={{minWidth:'calc(50% - 5px)', '& .icon1:hover':{display:'block',color:'red', bgcolor:'blue'}}}>
-              <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Stack sx={{cursor:'pointer','&:hover .link-icon':{display:'none'},'&:hover .cross-icon':{display:'block'}}}>
-                      <LinkOutlinedIcon className='link-icon' />
-                      <ClearIcon onClick={() => removeVideoUrlInp(item)} fontSize='small' className='cross-icon' sx={{display:'none',color:'red'}} />
-                    </Stack>
-                  </InputAdornment>
-                }
-                label="Other Video Id"
-              />
-            </FormControl>
+  function AddVideoUrl(item) {
+    return (
+      <FormControl id='form-control' sx={{ minWidth: 'calc(50% - 5px)', '& .icon1:hover': { display: 'block', color: 'red', bgcolor: 'blue' } }}>
+        <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-amount"
+          startAdornment={
+            <InputAdornment position="start">
+              <Stack sx={{ cursor: 'pointer', '&:hover .link-icon': { display: 'none' }, '&:hover .cross-icon': { display: 'block' } }}>
+                <LinkOutlinedIcon className='link-icon' />
+                <ClearIcon onClick={() => removeVideoUrlInp(item)} fontSize='small' className='cross-icon' sx={{ display: 'none', color: 'red' }} />
+              </Stack>
+            </InputAdornment>
+          }
+          label="Other Video Id"
+        />
+      </FormControl>
     )
   }
-  console.log(videoInpList);
-  
+
   return (
     <Box component="form">
       <TextField
@@ -260,8 +258,8 @@ const AddProductForm = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 defaultValue={0}
-                sx={{background:'#f1f3f5'}}
-                input={<BootstrapInput/>}
+                sx={{ background: '#f1f3f5' }}
+                input={<BootstrapInput />}
               >
                 <MenuItem value={0}>kg</MenuItem>
                 <MenuItem value={5}>gm</MenuItem>
@@ -286,12 +284,12 @@ const AddProductForm = () => {
         <InfoOutlinedIcon fontSize="sm" />
       </Typography>
       <Stack direction="row" gap="10px">
-        <Stack sx={{flex:1}}>
-          <Typography variant="body2" sx={{color:grey[500], textAlign:'center'}}>Featured Image</Typography>
+        <Stack sx={{ flex: 1 }}>
+          <Typography variant="body2" sx={{ color: grey[500], textAlign: 'center' }}>Featured Image</Typography>
           <FilePondUpload allowMultiple={false} labelIdle='Drag & Drop Image or <span class="filepond--label-action">Browse</span>' />
         </Stack>
-        <Stack sx={{flex:1}}>
-          <Typography variant="body2" sx={{color:grey[500], textAlign:'center'}}>Other Images</Typography>
+        <Stack sx={{ flex: 1 }}>
+          <Typography variant="body2" sx={{ color: grey[500], textAlign: 'center' }}>Other Images</Typography>
           <FilePondUpload allowMultiple={true} labelIdle='Drag & Drop Image or <span class="filepond--label-action">Browse</span>' />
         </Stack>
       </Stack>
@@ -303,35 +301,35 @@ const AddProductForm = () => {
         title="Add Youtube Video Id"
       >
         Videos
-        <InfoOutlinedIcon  fontSize="sm" />
-        <Button size="small" sx={{ml:2}} variant="outlined" onClick={()=>setVideoInpList(prevState => [...prevState, AddVideoUrl(prevState.length)])} startIcon={<AddIcon />}  >Add More</Button>
+        <InfoOutlinedIcon fontSize="sm" />
+        <Button size="small" sx={{ ml: 2 }} variant="outlined" onClick={() => setVideoInpList(prevState => [...prevState, AddVideoUrl(prevState.length)])} startIcon={<AddIcon />}  >Add More</Button>
       </Typography>
       <Stack direction="row" gap="10px" mt={2} flexWrap="wrap" id="add-video-url" >
-          <FormControl sx={{minWidth:'calc(50% - 5px)' }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Featured Video Id</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">
-                  <LinkOutlinedIcon/>
-                </InputAdornment>
-              }
-              label="Featured Video Id"
-            />
-          </FormControl>
-          <FormControl sx={{minWidth:'calc(50% - 5px)' }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              startAdornment={
-                <InputAdornment position="start">
-                  <LinkOutlinedIcon/>
-                </InputAdornment>
-              }
-              label="Other Video Id"
-            />
-          </FormControl>
-          {videoInpList.map((item)=> item)}
+        <FormControl sx={{ minWidth: 'calc(50% - 5px)' }}>
+          <InputLabel htmlFor="outlined-adornment-amount">Featured Video Id</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={
+              <InputAdornment position="start">
+                <LinkOutlinedIcon />
+              </InputAdornment>
+            }
+            label="Featured Video Id"
+          />
+        </FormControl>
+        <FormControl sx={{ minWidth: 'calc(50% - 5px)' }}>
+          <InputLabel htmlFor="outlined-adornment-amount">Other Video Id</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={
+              <InputAdornment position="start">
+                <LinkOutlinedIcon />
+              </InputAdornment>
+            }
+            label="Other Video Id"
+          />
+        </FormControl>
+        {videoInpList.map((item) => item)}
       </Stack>
     </Box>
   );

@@ -7,11 +7,7 @@ export default function AddProductForm() {
   console.log(videoList)
 
   const handleAddVideo = () => {
-    const newVideo = {
-      isFeaturedVideo: false,
-      videoUrl: 'https://www.sibad.com'
-    }
-    setVideoList(items => ([...items, newVideo]))
+    setVideoList(items => ([...items, items.length]))
   }
 
   return (
@@ -27,14 +23,12 @@ export default function AddProductForm() {
 function VideoItem({data, index, setVideoList,videoList}){
   
   const handleChange = (e) => {
-    setVideoList((items)=>{
-      
-    })
+    console.log(e.target.value);
   }
 
   return (
     <div>
-      <p defaultValue={data?.videoUrl} onClick={handleChange}>Para: {index}</p>
+      <p defaultValue={data?.videoUrl} onClick={handleChange}>Para: {data}</p>
     </div>
   )
 }
